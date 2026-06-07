@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import Predictor from "./components/Predictor"
+import ResultsPage from "./components/ResultsPage"
+import {Switch,Route} from "react-router-dom"
+import CasteDataContextObject from "./context/CasteContext"
+import { useState } from "react"
+import ProtectedRoute from "./components/ProtectedRoute"
+const App = ()=>
+{
+  const [CollegeArray,SetCollegeArray] = useState([])
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+  const DefineCollegeList = (CollegeList)=>
+  {
+    SetCollegeArray
+    (
+      (PreviousStateArray)=>
+      {
+        return [...CollegeList]
+      }
+    )
+
+  }
+
+
+  const AppPage =
+  <CasteDataContextObject.Provider value={{DefineCollegeList:DefineCollegeList,CollegeArray:CollegeArray}}>
+    <Switch>
+      <Route exact path="/" component={Predictor} />
+      <ProtectedRoute exact path="/results" component={ResultsPage} />
+    </Switch>
+  </CasteDataContextObject.Provider>
+    
+
+  return AppPage
 }
 
-export default App;
+export default App
