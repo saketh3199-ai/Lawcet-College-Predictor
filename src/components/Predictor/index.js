@@ -206,32 +206,24 @@ const Predictor = (props)=>
                                 //THE BELOW CONDITION DECIDES WHETHER TO USE RESERVED ARRAY OR UNRESERVED ARRAY
                                 if (Status === "RESERVED")
                                 {
-                                    const CuratedCollegeList = Three_Year_Reserved_Array.filter
-                                    (
-                                        (CollegeObject)=>
-                                        {
-                                            if (CollegeObject.Caste===CasteOfUser && (CollegeObject["Opening Rank"]<=RankOfUser && CollegeObject["Closing Rank"]>=RankOfUser) )
-                                            {
-                                                return CollegeObject
-                                            }
-                                        }
-                                    )
+                                    const CuratedCollegeList = Three_Year_Reserved_Array.filter(
+                                    (CollegeObject) =>
+                                    CollegeObject.Caste === CasteOfUser &&
+                                    CollegeObject["Opening Rank"] <= RankOfUser &&
+                                    CollegeObject["Closing Rank"] >= RankOfUser
+                                    );
                                     DefineCollegeList(CuratedCollegeList)
                                     history.push("/results")
                                 }
                                 
                                 else 
                                 {
-                                    const CuratedCollegeList = Three_Year_Unreserved_Array.filter
-                                    (
-                                        (CollegeObject)=>
-                                        {
-                                            if (CollegeObject.Caste===CasteOfUser && (CollegeObject["Opening Rank"]<=RankOfUser && CollegeObject["Closing Rank"]>=RankOfUser) )
-                                            {
-                                                return CollegeObject
-                                            }
-                                        }
-                                    )
+                                    const CuratedCollegeList = Three_Year_Unreserved_Array.filter(
+                                        (CollegeObject) =>
+                                            CollegeObject.Caste === CasteOfUser &&
+                                            CollegeObject["Opening Rank"] <= RankOfUser &&
+                                            CollegeObject["Closing Rank"] >= RankOfUser
+                                    );
 
                                     DefineCollegeList(CuratedCollegeList)
                                     history.push("/results")
