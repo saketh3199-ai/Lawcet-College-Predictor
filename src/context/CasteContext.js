@@ -1,13 +1,8 @@
 import React from "react";
 
+const CasteDataContextObject = React.createContext({
+  DefineCollegeList: () => {},
+  CollegeArray: [],
+});
 
-const CasteDataContextObject = React.createContext
-(
-    {
-       DefineCollegeList:()=>{},
-       CollegeArray:[]
-    }
-)
-
-
-export default CasteDataContextObject
+export default CasteDataContextObject;

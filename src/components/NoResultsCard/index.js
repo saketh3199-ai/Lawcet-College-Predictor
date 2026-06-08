@@ -1,19 +1,13 @@
-import { NoResultsCard,NoResultsTitle,NoResultsText } from "./styledComponent"
+import { NoResultsCard, NoResultsTitle, NoResultsText } from "./styledComponent";
 
-const NoResultCard = ()=>
-{
-    const NoResultCardElement = 
-    <NoResultsCard>
-  <NoResultsTitle>No colleges were found</NoResultsTitle>
+const NoResultCard = () => (
+  <NoResultsCard>
+    <NoResultsTitle>No colleges were found</NoResultsTitle>
+    <NoResultsText>
+      Try with different data. The website is under construction so more college
+      data may be added soon — check back later.
+    </NoResultsText>
+  </NoResultsCard>
+);
 
-  <NoResultsText>
-    You can try with different data. Also, the website is under construction so more college
-    data might be added soon. Check back at a different time.
-  </NoResultsText>
-    </NoResultsCard>
-
-    return NoResultCardElement
-}
-
-
-export default NoResultCard
+export default NoResultCard;
