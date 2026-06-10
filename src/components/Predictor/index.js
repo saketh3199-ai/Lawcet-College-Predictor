@@ -23,7 +23,7 @@ import {
   DisclaimerCloseButton
 } from "./styledComponent";
 
-import { Three_Year_Reserved_Array, Three_Year_Unreserved_Array } from "../../utils";
+import { Three_Year_Reserved_Array, Three_Year_Unreserved_Array,Five_Year_Reserved_Array } from "../../utils";
 import CasteDataContextObject from "../../context/CasteContext";
 
 const CasteList = [
@@ -41,19 +41,24 @@ const Predictor = (props) => {
   const [CloseDisclaimerClicked,SetDCStatus] = useState(false)
   return (
     <CasteDataContextObject.Consumer>
-      {({ DefineCollegeList }) => {
+      {
+      ({ DefineCollegeList,Course }) => {
         const OnSelectCaste    = (e) => SetCaste(e.target.value);
         const RegisterUserRank = (e) => SetRank(e.target.value);
         const OnSelectStatus   = (e) => SetStatus(e.target.value);
 
         const OnClickGetClgListBtn = () => {
-          if (CasteOfUser !== "" && RankOfUser !== 0 && Status !== "") {
-            Cookie.set("JWT_TOKEN", 1000, { expires: 7, path: "/" });
 
-            const dataArray =
-              Status === "RESERVED"
-                ? Three_Year_Reserved_Array
-                : Three_Year_Unreserved_Array;
+        if (Course === "5 YEARS")
+        {
+          
+          if (CasteOfUser !== "" && RankOfUser !== 0) {
+            Cookie.set("JWT_TOKEN", 1000, { expires: 7, path: "/" });
+            const dataArray =Five_Year_Reserved_Array;
+             
+              
+           
+            
 
             const CuratedCollegeList = dataArray.filter(
               (c) =>
@@ -65,12 +70,79 @@ const Predictor = (props) => {
             DefineCollegeList(CuratedCollegeList);
             props.history.push("/results");
           }
+
+        }
+        else
+        {
+            if (CasteOfUser !== "" && RankOfUser !== 0 && Status!=="") {
+            Cookie.set("JWT_TOKEN", 1000, { expires: 7, path: "/" });
+            const dataArray =Status === "RESERVED"? Three_Year_Reserved_Array: Three_Year_Unreserved_Array;
+             
+              
+           
+            
+
+            const CuratedCollegeList = dataArray.filter(
+              (c) =>
+                c.Caste === CasteOfUser &&
+                c["Opening Rank"] <= RankOfUser &&
+                c["Closing Rank"] >= RankOfUser
+            );
+
+            DefineCollegeList(CuratedCollegeList);
+            props.history.push("/results");
+          }
+
+          
+        }
+
         };
 
         const OnClickCloseDisclaimer = ()=>
         {
             SetDCStatus(true)
         }
+
+        const onClickGoBack = ()=>
+        {
+          const {history} = props
+          history.push("/")
+        }
+
+        const renderReservedUnreservedOptions = ()=>
+        (
+         
+
+          <FieldGroup>
+                  <Label as="p">Reservation Status</Label>
+                  <RadioGroupLabel>Select whether you are Reserved or Unreserved</RadioGroupLabel>
+                  <RadioGroup>
+                    <RadioLabel>
+                      <input
+                        type="radio"
+                        name="reservation"
+                        value="RESERVED"
+                        onChange={OnSelectStatus}
+                        checked={Status === "RESERVED"}
+                      />
+                      Reserved
+          </RadioLabel>
+          <RadioLabel>
+                      <input
+                        type="radio"
+                        name="reservation"
+                        value="UNRESERVED"
+                        onChange={OnSelectStatus}
+                        checked={Status === "UNRESERVED"}
+                      />
+                      Unreserved
+            </RadioLabel>
+                  </RadioGroup>
+          </FieldGroup>
+          
+        
+          
+        )
 
         return (
           <>
@@ -79,7 +151,7 @@ const Predictor = (props) => {
               <Gavel aria-hidden="true">⚖️</Gavel>
 
               <Title>
-                Get a List of Colleges Basing on Your TS LAWCET Score for 3 YEARS LLB ONLY
+                Get a List of Colleges Basing on Your TS LAWCET Score for {Course} LLB ONLY
               </Title>
               <Divider />
               <Subtitle>Telangana State Law Common Entrance Test — College Finder</Subtitle>
@@ -118,36 +190,18 @@ const Predictor = (props) => {
                 </FieldGroup>
 
                 {/* RESERVATION */}
-                <FieldGroup>
-                  <Label as="p">Reservation Status</Label>
-                  <RadioGroupLabel>Select whether you are Reserved or Unreserved</RadioGroupLabel>
-                  <RadioGroup>
-                    <RadioLabel>
-                      <input
-                        type="radio"
-                        name="reservation"
-                        value="RESERVED"
-                        onChange={OnSelectStatus}
-                        checked={Status === "RESERVED"}
-                      />
-                      Reserved
-                    </RadioLabel>
-                    <RadioLabel>
-                      <input
-                        type="radio"
-                        name="reservation"
-                        value="UNRESERVED"
-                        onChange={OnSelectStatus}
-                        checked={Status === "UNRESERVED"}
-                      />
-                      Unreserved
-                    </RadioLabel>
-                  </RadioGroup>
-                </FieldGroup>
+                
+                    {Course==="3 YEARS"&&renderReservedUnreservedOptions()}
+                  
 
                 <Button type="button" onClick={OnClickGetClgListBtn}>
                   Get College List
                 </Button>
+
+                <Button type="button" onClick={onClickGoBack}>
+                  Go Back
+                </Button>
+
               </Card>
             </HeroWrap>
 

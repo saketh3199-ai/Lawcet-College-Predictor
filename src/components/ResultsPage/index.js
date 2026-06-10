@@ -17,7 +17,7 @@ import NoResultCard from "../NoResultsCard";
 const ResultsPage = (props) => {
   const OnClickTryAnotherSearch = () => {
     Cookie.remove("JWT_TOKEN");
-    props.history.push("/");
+    props.history.push("/predict");
   };
 
   return (
